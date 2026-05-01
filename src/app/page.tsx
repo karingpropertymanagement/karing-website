@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import AnimatedSection from "@/components/ui/AnimatedSection";
-import { Star, Eye, Zap, Monitor, UserCheck, ClipboardList, Settings, DollarSign, Home as HomeIcon, Building, Wrench } from "lucide-react";
+import { Star, Eye, Zap, Monitor, UserCheck } from "lucide-react";
 
 const whyUsCards = [
   {

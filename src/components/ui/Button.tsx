@@ -47,7 +47,7 @@ export default function Button({
   if ("href" in props && props.href) {
     const { href, ...rest } = props as ButtonAsLink;
     return (
-      <Link href={href} className={classes} {...(rest as any)}>
+      <Link href={href} className={classes} {...(rest as Omit<ButtonAsLink, 'href'>)}>
         {rest.children}
       </Link>
     );

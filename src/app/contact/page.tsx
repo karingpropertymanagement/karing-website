@@ -211,7 +211,7 @@ export default function ContactPage() {
                   What happens next?
                 </h3>
                 <div className="space-y-6">
-                  {nextSteps.map((step, i) => (
+                  {nextSteps.map((step) => (
                     <div key={step.title} className="flex gap-4">
                       <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
                         <step.icon className="w-5 h-5 text-accent" />
