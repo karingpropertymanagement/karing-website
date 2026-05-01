@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useForm, ValidationError } from "@formspree/react";
 import Button from "@/components/ui/Button";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import AnimatedSection from "@/components/ui/AnimatedSection";
@@ -26,25 +26,7 @@ const nextSteps = [
 ];
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    propertyType: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [state, handleSubmit] = useForm("xvzloddj");
 
   return (
     <>
@@ -86,7 +68,7 @@ export default function ContactPage() {
           {/* Form */}
           <div className="lg:col-span-3">
             <AnimatedSection>
-              {submitted ? (
+              {state.succeeded ? (
                 <div className="p-12 rounded-2xl border border-accent/30 bg-accent/5 text-center">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
                     <Send className="w-8 h-8 text-accent" />
@@ -109,11 +91,10 @@ export default function ContactPage() {
                       id="name"
                       name="name"
                       required
-                      value={formData.name}
-                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-navy-200 bg-offwhite text-navy placeholder:text-navy-300 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
                       placeholder="Jane Smith"
                     />
+                    <ValidationError field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -126,11 +107,10 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         required
-                        value={formData.email}
-                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl border border-navy-200 bg-offwhite text-navy placeholder:text-navy-300 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
                         placeholder="jane@example.com"
                       />
+                      <ValidationError field="email" errors={state.errors} className="text-red-500 text-xs mt-1" />
                     </div>
                     <div>
                       <label htmlFor="phone" className="block text-sm font-medium text-navy mb-2">
@@ -140,8 +120,6 @@ export default function ContactPage() {
                         type="tel"
                         id="phone"
                         name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl border border-navy-200 bg-offwhite text-navy placeholder:text-navy-300 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
                         placeholder="(555) 123-4567"
                       />
@@ -156,8 +134,6 @@ export default function ContactPage() {
                       id="propertyType"
                       name="propertyType"
                       required
-                      value={formData.propertyType}
-                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-navy-200 bg-offwhite text-navy focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all appearance-none"
                     >
                       <option value="" disabled>
@@ -177,15 +153,14 @@ export default function ContactPage() {
                       id="message"
                       name="message"
                       rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-navy-200 bg-offwhite text-navy placeholder:text-navy-300 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all resize-none"
                       placeholder="Tell us about your property and what you're looking for..."
                     />
+                    <ValidationError field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full sm:w-auto">
-                    Send Message
+                  <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={state.submitting}>
+                    {state.submitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               )}
